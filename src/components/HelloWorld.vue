@@ -135,9 +135,12 @@
 </template>
 
 <script>
+import Vue from "vue";
 import axios from "axios";
 import moment from "moment";
 import FlipCountdown from "vue2-flip-countdown";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
 export default {
   name: "HelloWorld",
   components: { FlipCountdown },
@@ -192,8 +195,21 @@ export default {
           this.temp = Math.floor(response.data.main.temp - 273.15);
           this.changeIcon();
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          if (error.response) {
+            /*
+             * The request was made and the server responded with a
+             * status code that falls out of the range of 2xx
+             */this.$alert(
+               error.response.data.message, 
+               'Warning',
+                'warning'
+               );
+            // console.log(error.response.data.message);
+            // console.log(error.response.status);
+            // console.log(error.response.headers);
+          }
+          
         });
 
         
