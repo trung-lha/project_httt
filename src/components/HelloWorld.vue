@@ -8,7 +8,7 @@
         <v-card
           class="mx-auto"
           max-width="344"
-          style="background-color: rgba(18 115 214 / 27%); border-color: rgba(97, 92, 92, 0.27);"
+          style="background-color: white; border-color: rgba(97, 92, 92, 0.27);"
         >
           <v-row>
             <v-col
@@ -45,92 +45,35 @@
               label="City"
               solo
               class="mr-1"
+              v-on:keyup.enter= "getInfoWeather"
             ></v-text-field>
             <v-btn
               depressed
               color="primary"
               height="62%"
-              @click="getInfoWeather"
+              @click= "getInfoWeather"
             >
               Search
             </v-btn>
           </v-col>
         </v-row>
       </v-col>
-
-      <!-- <v-col class="mr-10" cols="9">
-        <v-sheet height="64">
-          <v-toolbar flat>
-            <v-btn
-              outlined
-              class="mr-4"
-              color="grey darken-2"
-              @click="setToday"
+      <v-col cols="12" class="d-flex">
+        <v-row class="justify-center ">
+          <iframe
+                v-bind:src = "address"
+                width="450"
+                height="200"
+                frameborder="0"
+                style="border: 0"
+                allowfullscreen=""
+                aria-hidden="false"
+                tabindex="0"
+              ></iframe
             >
-              Today
-            </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="prev">
-              <v-icon small>
-                mdi-chevron-left
-              </v-icon>
-            </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="next">
-              <v-icon small>
-                mdi-chevron-right
-              </v-icon>
-            </v-btn>
-            <v-toolbar-title v-if="$refs.calendar">
-              {{ $refs.calendar.title }}
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-menu bottom right>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
-                  <span>{{ typeToLabel[type] }}</span>
-                  <v-icon right>
-                    mdi-menu-down
-                  </v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item @click="type = 'month'">
-                  <v-list-item-title>Month</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-toolbar>
-        </v-sheet>
-        <v-sheet height="600">
-          <v-calendar
-            ref="calendar"
-            v-model="focus"
-            color="primary"
-            :type="type"
-            @click:date="clickday($event)"
-          ></v-calendar>
-        </v-sheet>
-      </v-col> -->
+        </v-row>
+      </v-col>
     </v-row>
-
-    <!-- <v-dialog v-model="dialog" width="500">
-      <v-card>
-        <v-card-title class="headline grey lighten-2 d-flex justify-center">
-          Information
-        </v-card-title>
-
-        <v-card-text>
-          {{ infomationDate }}
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions class="d-flex justify-center">
-          <v-btn color="primary" text @click="dialog = false">
-            Close
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
   </div>
 </template>
 
@@ -162,10 +105,13 @@ export default {
     selectedOpen: false,
     events: [],
     weatherInterval: null,
+    lat: null,
+    lon: null,
     today: moment().format("dddd - DD/MM/YYYY"),
     now: moment().format("hh:mm:ss A"),
     infoWeather: {},
     temp: null,
+    address: "https://www.google.com/maps?q=21.0245,105.8412&z=15&output=embed"
   }),
   mounted() {
     // this.$refs.calendar.checkChange();
@@ -191,8 +137,11 @@ export default {
           // console.log(response.data.weather[0]['id']);
           this.infoWeather = response.data;
           this.city2 = response.data.name;
+          this.lat = response.data.coord.lat;
+          this.lon = response.data.coord.lon;
           this.weatherDescriptionId = response.data.weather[0]['id'];
           this.temp = Math.floor(response.data.main.temp - 273.15);
+          this.address = "https://www.google.com/maps?q="+ this.lat + "," + this.lon +"&z=15&output=embed"
           this.changeIcon();
         })
         .catch((error) => {
