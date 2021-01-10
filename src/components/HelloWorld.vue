@@ -4,10 +4,31 @@
       <v-col cols="12" class="mt-n5">
         <flip-countdown deadline="2021-2-12 00:00:00"></flip-countdown>
       </v-col>
+       <v-col cols="12" class="d-flex">
+        <v-row class="justify-center">
+          <v-col cols="4" class="d-flex">
+            <v-text-field
+              v-model="city"
+              label="City"
+              solo
+              class="mr-1"
+              v-on:keyup.enter= "getInfoWeather"
+            ></v-text-field>
+            <v-btn
+              depressed
+              color="primary"
+              height="62%"
+              @click= "getInfoWeather"
+            >
+              Search
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
       <v-col cols="12" class="mt-n4">
         <v-card
           class="mx-auto"
-          max-width="344"
+          max-width="350"
           style="background-color: white; border-color: rgba(97, 92, 92, 0.27);"
         >
           <v-row>
@@ -43,32 +64,12 @@
         </v-card>
       </v-col>
 
-      <v-col cols="12" class="d-flex">
-        <v-row class="justify-center">
-          <v-col cols="3" class="d-flex">
-            <v-text-field
-              v-model="city"
-              label="City"
-              solo
-              class="mr-1"
-              v-on:keyup.enter= "getInfoWeather"
-            ></v-text-field>
-            <v-btn
-              depressed
-              color="primary"
-              height="62%"
-              @click= "getInfoWeather"
-            >
-              Search
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
+     
       <v-col cols="12" class="d-flex">
         <v-row class="justify-center ">
           <iframe
                 v-bind:src = "address"
-                width="450"
+                width="350"
                 height="200"
                 frameborder="0"
                 style="border: 0"
@@ -205,19 +206,33 @@ export default {
             this.weatherDescription = "mdi-weather-snowy";
             break;
           case (601):
+          case 621:
+          case 622:
+          case 623:
             this.weatherDescription = "mdi-weather-snowy-heavy"
             break;
           case (610):
             this.weatherDescription = "mdi-weather-snowy-rainy";
             break;
-          case (611, 612):
+          case (611):
+          case 612:
             this.weatherDescription = "mdi-weather-windy-variant";
             break;
-          case 803:
-            this.weatherDescription="mdi-weather-partly-cloudy";
+          case 700:
+          case 711:
+          case 721:
+          case 731:
+          case 741:
+          case 751: 
+            this.weatherDescription = "mdi-weather-fog";
             break;
           case 800:
             this.weatherDescription="mdi-weather-sunny";
+            break;
+          case 801:
+          case 802:
+          case 803:
+            this.weatherDescription="mdi-weather-partly-cloudy";
             break;
           case 804:
             this.weatherDescription="mdi-weather-cloudy";
