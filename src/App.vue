@@ -25,8 +25,9 @@ export default {
 <style lang="scss" scoped>
 .stylemain {
   background-image: url("./assets/soicttet2021.jpg");
-  // background-color:rgb(158, 29, 29);
+  // background-image: url("./assets/1076.jpg");
+  // background-color:rgb(90, 236, 229);
   background-position:center;
-  background-size: contain;
+  background-size: cover;
 }
 </style>

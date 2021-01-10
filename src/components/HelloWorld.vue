@@ -29,7 +29,7 @@
         <v-card
           class="mx-auto"
           max-width="350"
-          style="background-color: white; border-color: rgba(97, 92, 92, 0.27);"
+          style="background-color: rgba(90,230,230, 0.4); border-color: rgba(97, 92, 92, 0.27);"
         >
           <v-row>
             <v-col
@@ -45,14 +45,19 @@
             <v-col
               cols="12"
               align="center"
-              class="pt-0 text-subtitle-1 black--text"
-              >{{city2}} , {{ today }}</v-col
+              class="pt-0 text-h5 font-weight black--text"
+              >{{weatherDescription2}}<br> 
+              <v-icon size="1.3rem" color="black" id="icon-weather">mdi-weather-windy</v-icon>
+              {{windSpeed}} m/s<br>
+              <v-icon size="1.3rem" color="black" id="icon-weather">mdi-water-outline</v-icon>
+              {{humidity}}%
+              </v-col
             >
             <v-col
               cols="12"
               align="center"
-              class="pt-0 text-h5 font-weight black--text"
-              >{{weatherDescription2}}</v-col
+              class="pt-0 text-subtitle-1 black--text"
+              ><b>{{city2}}</b> , {{ today }}</v-col
             >
             <v-col
               cols="12"
@@ -108,6 +113,7 @@ export default {
     weatherDescriptionId: null,
     weatherDescription: null,
     weatherDescription2: null,
+    windSpeed: null,
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -115,6 +121,7 @@ export default {
     weatherInterval: null,
     lat: null,
     lon: null,
+    humidity: null,
     today: moment().format("dddd - DD/MM/YYYY"),
     now: moment().format("hh:mm:ss A"),
     infoWeather: {},
@@ -149,6 +156,8 @@ export default {
           this.lon = response.data.coord.lon;
           this.weatherDescriptionId = response.data.weather[0]['id'];
           this.weatherDescription2 = response.data.weather[0]['description'],
+          this.windSpeed = response.data.wind.speed,
+          this.humidity = response.data.main.humidity,
           this.temp = Math.floor(response.data.main.temp - 273.15);
           this.address = "https://www.google.com/maps?q="+ this.lat + "," + this.lon +"&z=15&output=embed"
           this.changeIcon();
