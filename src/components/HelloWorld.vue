@@ -30,6 +30,12 @@
             <v-col
               cols="12"
               align="center"
+              class="pt-0 text-h5 font-weight black--text"
+              >{{weatherDescription2}}</v-col
+            >
+            <v-col
+              cols="12"
+              align="center"
               class="pt-0 text-h4 font-weight-bold black--text"
               >{{ now }}</v-col
             >
@@ -100,6 +106,7 @@ export default {
     },
     weatherDescriptionId: null,
     weatherDescription: null,
+    weatherDescription2: null,
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -140,6 +147,7 @@ export default {
           this.lat = response.data.coord.lat;
           this.lon = response.data.coord.lon;
           this.weatherDescriptionId = response.data.weather[0]['id'];
+          this.weatherDescription2 = response.data.weather[0]['description'],
           this.temp = Math.floor(response.data.main.temp - 273.15);
           this.address = "https://www.google.com/maps?q="+ this.lat + "," + this.lon +"&z=15&output=embed"
           this.changeIcon();
@@ -166,11 +174,47 @@ export default {
     changeIcon(){
       console.log(this.weatherDescription);
       switch(this.weatherDescriptionId){
+          case 200:
+          case 201:
+          case 202:
+            this.weatherDescription = "mdi-weather-partly-lightning";
+            break;
+          case 230:
+          case 231:
+          case 232:
+          case 233:
+            this.weatherDescription = "mdi-weather-lightning-rainy";
+            break;
+          case (300):
+          case 301:
+          case 302:
+            this.weatherDescription = "mdi-weather-hail";
+            break;
+          case (500):
+          case 501:
+          case 502:
+            this.weatherDescription="mdi-weather-rainy";
+            break;
+          case (511):
+          case 520:
+          case 521:
+          case 522:
+            this.weatherDescription="mdi-weather-pouring";
+            break;
+          case (600):
+            this.weatherDescription = "mdi-weather-snowy";
+            break;
+          case (601):
+            this.weatherDescription = "mdi-weather-snowy-heavy"
+            break;
+          case (610):
+            this.weatherDescription = "mdi-weather-snowy-rainy";
+            break;
+          case (611, 612):
+            this.weatherDescription = "mdi-weather-windy-variant";
+            break;
           case 803:
             this.weatherDescription="mdi-weather-partly-cloudy";
-            break;
-          case 500:
-            this.weatherDescription="mdi-weather-rainy";
             break;
           case 800:
             this.weatherDescription="mdi-weather-sunny";
