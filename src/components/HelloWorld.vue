@@ -2,7 +2,7 @@
   <div>
     <v-row class="mt-10" style="opacity: 0.9">
       <v-col cols="12" class="mt-n5">
-        <flip-countdown deadline="2021-2-12 00:00:00"></flip-countdown>
+        <flip-countdown v-if="valueSwitch" deadline="2021-2-12 00:00:00"></flip-countdown>
       </v-col>
        <v-col cols="12" class="d-flex">
         <v-row class="justify-center">
@@ -28,7 +28,7 @@
       <v-col cols="12" class="mt-n4">
         <v-card
           class="mx-auto"
-          max-width="350"
+          :max-width="widthCard"
           style="background-color: rgba(90,230,230, 0.4); border-color: rgba(97, 92, 92, 0.27);"
         >
           <v-row>
@@ -65,6 +65,20 @@
               class="pt-0 text-h4 font-weight-bold black--text"
               >{{ now }}</v-col
             >
+            <v-col cols="5" class="d-flex ml-2"> 
+              <v-btn fab dark x-small color="primary" class="mr-1" @click="changeWidthCard(-50)">
+                <v-icon>mdi-minus-circle-outline</v-icon>
+              </v-btn>
+              <v-btn fab dark x-small color="primary" @click="changeWidthCard(50)">
+                <v-icon>mdi-plus-circle-outline</v-icon>
+              </v-btn>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="6" class="py-0 d-flex justify-end">
+              <v-switch v-model="valueSwitch" class="pt-0" @click="clickSwitch">
+
+              </v-switch>
+            </v-col>
           </v-row>
         </v-card>
       </v-col>
@@ -74,7 +88,7 @@
         <v-row class="justify-center ">
           <iframe
                 v-bind:src = "address"
-                width="350"
+                :width="widthCard"
                 height="200"
                 frameborder="0"
                 style="border: 0"
@@ -101,6 +115,8 @@ export default {
   components: { FlipCountdown },
 
   data: () => ({
+    widthCard: 350,
+    valueSwitch: false,
     city: "hanoi",
     city2: "Hanoi",
     focus: "",
@@ -140,6 +156,18 @@ export default {
     }, 1000);
   },
   methods: {
+    changeWidthCard(value){
+      this.widthCard = this.widthCard+value;
+      if (this.widthCard < 350) {
+        this.widthCard = 350;
+      } else if(this.widthCard > 450){
+        this.widthCard = 450;
+      }
+    },
+    clickSwitch(){
+      console.log(this.valueSwitch,"helloworld");
+      this.$emit('change',this.valueSwitch)
+    },
     getInfoWeather() {
       axios
         .get(

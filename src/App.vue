@@ -1,7 +1,11 @@
 <template>
   <v-app>
     <v-main class="stylemain">
-      <HelloWorld />
+      <div :style="`background-image: url(${srcImg})`" style=" background-position:center; background-size: cover; width: 100%; position: absolute; top: 0px; left: 0px;">
+      <HelloWorld 
+      @change="getImg"
+      />
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -17,17 +21,24 @@ export default {
   },
 
   data: () => ({
+    srcImg: '/img/afterglow.7b730791.jpg'
     //
   }),
+  methods: {
+    getImg(value){
+      // console.log(value);
+      if (!value) {
+        this.srcImg = '/img/afterglow.7b730791.jpg'
+        console.log(this.srcImg,"true");
+      } else {
+        this.srcImg = '/img/1076.07102d5e.jpg'
+        console.log(this.srcImg,"false");
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.stylemain {
-  background-image: url("./assets/soicttet2021.jpg");
-  // background-image: url("./assets/1076.jpg");
-  // background-color:rgb(90, 236, 229);
-  background-position:center;
-  background-size: cover;
-}
+
 </style>
